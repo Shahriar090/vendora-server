@@ -1,6 +1,7 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import globalErrorHandler from './middlewares/globalErrorHandler';
 const app: Application = express();
 
 app.use(express.json());
@@ -21,5 +22,8 @@ app.use(
 app.get('/', (req: Request, res: Response) => {
   res.send('👋 Hello From Vendora.! A Multi Vendor E-Commerce Platform.');
 });
+
+// global error handler
+app.use(globalErrorHandler);
 
 export default app;

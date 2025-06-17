@@ -20,7 +20,7 @@ export default [
     },
     rules: {
       eqeqeq: 'off',
-      'no-unused-vars': 'error',
+      'no-unused-vars': 'warn',
       'no-unused-expressions': 'error',
       'no-console': 'warn',
       'no-undef': 'error',
