@@ -108,7 +108,7 @@ userSchema.post('save', function (doc, next) {
 
 // check is user already exists or not using static method
 userSchema.statics.isUserExists = async function (email: string) {
-  return this.findOne({ email }).select('+password');
+  return this.findOne({ 'contactInfo.email': email }).select('+password');
 };
 
 // static method to check if the plain-text password matches the hashed password.

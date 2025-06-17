@@ -24,8 +24,8 @@ export interface IUser {
   age?: number;
   contactInfo: IUserContactInfo;
   password: string;
-  role: TUserRole;
-  status: TUserStatus;
+  role?: TUserRole;
+  status?: TUserStatus;
   isDeleted: boolean;
 }
 
