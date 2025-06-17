@@ -15,7 +15,21 @@ const createUser = asyncHandler(async (req, res) => {
   });
 });
 
+// get a single user from DB
+const getSingleUser = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const result = await UserServices.getSingleUserFromDb(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User Retrieved Successfully',
+    data: result,
+  });
+});
+
 // -----------------------------------
 export const UserControllers = {
   createUser,
+  getSingleUser,
 };

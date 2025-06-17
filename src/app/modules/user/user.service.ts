@@ -3,7 +3,7 @@ import { IUser } from './user.interface';
 import httpStatus from 'http-status';
 import { User } from './user.model';
 
-// create user
+// create user into DB
 const createUser = async (payload: IUser) => {
   const isUserExist = await User.isUserExists(payload.contactInfo.email);
   if (isUserExist) {
@@ -18,7 +18,20 @@ const createUser = async (payload: IUser) => {
   return result;
 };
 
+// get a single user from DB
+const getSingleUserFromDb = async (id: string) => {
+  const result = await User.findById(id);
+  if (!result) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'No user found with this id.!',
+      'UserNotFound',
+    );
+  }
+  return result;
+};
 // ----------------------------------
 export const UserServices = {
   createUser,
+  getSingleUserFromDb,
 };
