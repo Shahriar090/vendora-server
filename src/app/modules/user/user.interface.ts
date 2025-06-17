@@ -1,3 +1,4 @@
+import { Model } from 'mongoose';
 import { USER_GENDER, USER_ROLES, USER_STATUS } from './user.constant';
 
 // interface for user name
@@ -20,10 +21,18 @@ export interface IUser {
   _id: string;
   name: IUserName;
   gender: TUserGender;
-  age: number;
+  age?: number;
   contactInfo: IUserContactInfo;
   password: string;
   role: TUserRole;
   status: TUserStatus;
   isDeleted: boolean;
+}
+
+export interface UserModel extends Model<IUser> {
+  isUserExists(email: string): Promise<IUser>;
+  isPasswordMatched(
+    plainTextPassword: string,
+    hashedPassword: string,
+  ): Promise<boolean>;
 }

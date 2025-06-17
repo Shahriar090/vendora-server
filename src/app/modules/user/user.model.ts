@@ -6,8 +6,11 @@ import {
   TUserGender,
   TUserRole,
   TUserStatus,
+  UserModel,
 } from './user.interface';
 import { USER_GENDER, USER_ROLES, USER_STATUS } from './user.constant';
+import bcrypt from 'bcrypt';
+import config from '../../config';
 
 const userNameSchema = new Schema<IUserName>({
   firstName: {
@@ -35,7 +38,7 @@ const userContactInfoSchema = new Schema<IUserContactInfo>({
   },
 });
 
-const userSchema = new Schema<IUser>(
+const userSchema = new Schema<IUser, UserModel>(
   {
     name: userNameSchema,
     gender: {
@@ -46,14 +49,12 @@ const userSchema = new Schema<IUser>(
 
     age: {
       type: Number,
-      required: true,
     },
 
     contactInfo: userContactInfoSchema,
     password: {
       type: String,
       required: true,
-      unique: true,
     },
 
     role: {
@@ -77,4 +78,45 @@ const userSchema = new Schema<IUser>(
   { timestamps: true },
 );
 
-export const User = model<IUser>('User', userSchema);
+// hashing the password before save the doc
+
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
+  this.password = await bcrypt.hash(
+    this.password,
+    Number(config.bcrypt_salt_round),
+  );
+  next();
+});
+
+// excluding deleted users (documents) from get operations
+userSchema.pre('find', function (next) {
+  this.where({ isDeleted: { $ne: true } });
+  next();
+});
+
+userSchema.pre('findOne', function (next) {
+  this.where({ isDeleted: { $ne: true } });
+  next();
+});
+
+// removing the password field after save the doc
+userSchema.post('save', function (doc, next) {
+  doc.password = '';
+  next();
+});
+
+// check is user already exists or not using static method
+userSchema.statics.isUserExists = async function (email: string) {
+  return this.findOne({ email }).select('+password');
+};
+
+// static method to check if the plain-text password matches the hashed password.
+userSchema.statics.isPasswordMatched = async function (
+  plainTextPassword: string,
+  hashedPassword: string,
+) {
+  const result = await bcrypt.compare(plainTextPassword, hashedPassword);
+  return result;
+};
+export const User = model<IUser, UserModel>('User', userSchema);
