@@ -28,8 +28,21 @@ const getSingleUser = asyncHandler(async (req, res) => {
   });
 });
 
+// get all users from DB
+const getAllUsers = asyncHandler(async (req, res) => {
+  const result = await UserServices.getAllUsersFromDb();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'All Users Retrieved Successfully',
+    data: result,
+  });
+});
+
 // -----------------------------------
 export const UserControllers = {
   createUser,
   getSingleUser,
+  getAllUsers,
 };
