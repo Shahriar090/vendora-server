@@ -12,31 +12,37 @@ import { USER_GENDER, USER_ROLES, USER_STATUS } from './user.constant';
 import bcrypt from 'bcrypt';
 import config from '../../config';
 
-const userNameSchema = new Schema<IUserName>({
-  firstName: {
-    type: String,
-    required: true,
+const userNameSchema = new Schema<IUserName>(
+  {
+    firstName: {
+      type: String,
+      required: true,
+    },
+    middleName: {
+      type: String,
+    },
+    lastName: {
+      type: String,
+      required: true,
+    },
   },
-  middleName: {
-    type: String,
-  },
-  lastName: {
-    type: String,
-    required: true,
-  },
-});
+  { _id: false },
+);
 
-const userContactInfoSchema = new Schema<IUserContactInfo>({
-  mobileNo: {
-    type: String,
-    required: true,
+const userContactInfoSchema = new Schema<IUserContactInfo>(
+  {
+    mobileNo: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-});
+  { _id: false },
+);
 
 const userSchema = new Schema<IUser, UserModel>(
   {

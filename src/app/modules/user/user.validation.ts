@@ -58,8 +58,8 @@ const updateUserValidationSchema = z.object({
       age: z.number().int().min(18, 'Age Must Be At Least 18').optional(),
       contactInfo: z
         .object({
-          mobileNo: z.string().min(1, 'Mobile number is required'),
-          email: z.string().email('Invalid email address'),
+          mobileNo: z.string().min(1, 'Mobile number is required').optional(),
+          email: z.string().email('Invalid email address').optional(),
         })
         .optional(),
       password: z

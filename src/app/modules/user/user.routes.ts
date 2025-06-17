@@ -18,4 +18,12 @@ router.route('/user/:id').get(UserControllers.getSingleUser);
 // get all users
 router.route('/all-users').get(UserControllers.getAllUsers);
 
+// update a user
+router
+  .route('/update-user/:id')
+  .put(
+    validateRequest(UserValidations.updateUserValidationSchema),
+    UserControllers.updateUser,
+  );
+
 export const userRoutes = router;
