@@ -1,0 +1,43 @@
+# Node modules
+node_modules/
+
+# Build output
+dist/
+build/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.* 
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.sw?
+
+# Coverage output (if using Jest or other testing tools)
+coverage/
+
+# PM2 logs (if using PM2 in production)
+pids/
+*.pid
+*.seed
+
+# ESLint/Prettier cache
+.eslintcache
+
+# Optional: ignore local database dumps
+dump/
