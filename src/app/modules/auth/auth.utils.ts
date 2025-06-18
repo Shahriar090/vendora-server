@@ -9,3 +9,8 @@ export const generateJwt = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return jwt.sign(jwtPayload, secret, { expiresIn: expiry as any });
 };
+
+// jwt validator
+export const verifyJwt = (token: string, secret: string) => {
+  return jwt.verify(token, secret);
+};
