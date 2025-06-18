@@ -54,10 +54,24 @@ const updateUser = asyncHandler(async (req, res) => {
   });
 });
 
+// delete a user from DB
+const deleteUser = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const result = await UserServices.deleteUserFromDb(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User has been deleted successfully',
+    data: result,
+  });
+});
+
 // -----------------------------------
 export const UserControllers = {
   createUser,
   getSingleUser,
   getAllUsers,
   updateUser,
+  deleteUser,
 };
