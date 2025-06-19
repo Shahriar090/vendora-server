@@ -48,6 +48,7 @@ const loginUser = async (payload: TLoginInfo) => {
     id: user?._id,
     email: user?.contactInfo?.email,
     role: user.role!,
+    name: user.name,
   };
 
   const accessToken = generateJwt(
@@ -122,6 +123,7 @@ const refreshToken = async (token: string) => {
     id: user?._id,
     email: user?.contactInfo.email,
     role: user.role!,
+    name: user.name,
   };
 
   // giving new access token

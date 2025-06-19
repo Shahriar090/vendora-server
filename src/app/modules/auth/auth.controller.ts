@@ -22,7 +22,12 @@ const loginUser = asyncHandler(async (req, res) => {
     message: 'Login successful',
     data: {
       token: { accessToken },
-      user: { id: user?._id, email: user?.contactInfo.email, role: user?.role },
+      user: {
+        id: user?._id,
+        email: user?.contactInfo.email,
+        role: user?.role,
+        name: user?.name,
+      },
     },
   });
 });
