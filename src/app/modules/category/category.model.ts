@@ -11,7 +11,6 @@ const categorySchema = new Schema<TCategory>(
     },
     slug: {
       type: String,
-      required: true,
       lowercase: true,
       unique: true,
     },
@@ -25,7 +24,6 @@ const categorySchema = new Schema<TCategory>(
     status: {
       type: String,
       enum: Object.values(CATEGORY_STATUS) as TCategoryStatus[],
-      required: true,
       default: CATEGORY_STATUS.Active,
     },
     isDeleted: {
