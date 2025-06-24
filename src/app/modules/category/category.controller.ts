@@ -5,7 +5,10 @@ import httpStatus from 'http-status';
 
 // create new category
 const createCategory = asyncHandler(async (req, res) => {
-  const result = await CategoryServices.createCategoryIntoDb(req.body.category);
+  const result = await CategoryServices.createCategoryIntoDb(
+    req.body.category,
+    req,
+  );
 
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
