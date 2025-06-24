@@ -42,9 +42,24 @@ const getSingleCategory = asyncHandler(async (req, res) => {
   });
 });
 
+// update category
+const updateCategory = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { category } = req.body;
+  const result = await CategoryServices.updateCategoryIntoDb(id, category, req);
+
+  sendResponse(res, {
+    statusCode: httpStatus.CREATED,
+    success: true,
+    message: 'Category updated successfully.!',
+    data: result,
+  });
+});
+
 // --------------------------------------
 export const CategoryControllers = {
   createCategory,
   getAllCategories,
   getSingleCategory,
+  updateCategory,
 };

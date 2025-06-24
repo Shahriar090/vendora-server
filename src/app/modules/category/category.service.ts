@@ -67,10 +67,56 @@ const getSingleCategoryFromDb = async (id: string) => {
   return result;
 };
 
+// update category
+const updateCategoryIntoDb = async (
+  id: string,
+  payload: Partial<TCategory>,
+  req: Request,
+) => {
+  // check if the category is exist
+  const existingCategory = await Category.findById(id);
+
+  if (!existingCategory) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'Category not found.!',
+      'CategoryNotFound',
+    );
+  }
+
+  // image update if needed
+  let uploadedImageUrl: string | string[] | null = null;
+  if (req.file || req.files) {
+    uploadedImageUrl = await handleImageUpload(req);
+    if (!uploadedImageUrl) {
+      throw new AppError(
+        httpStatus.NOT_FOUND,
+        'Image uploading failed.!',
+        'CategoryNotFound',
+      );
+    }
+  }
+
+  // preparing updated data
+  const updatedData = {
+    ...payload,
+    ...(uploadedImageUrl && { imageUrl: uploadedImageUrl }),
+  };
+
+  // update category
+  const updatedCategory = await Category.findByIdAndUpdate(id, updatedData, {
+    new: true,
+    runValidators: true,
+  });
+
+  return updatedCategory;
+};
+
 // ---------------------------------------------
 
 export const CategoryServices = {
   createCategoryIntoDb,
   getAllCategoriesFromDb,
   getSingleCategoryFromDb,
+  updateCategoryIntoDb,
 };

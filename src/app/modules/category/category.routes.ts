@@ -22,5 +22,15 @@ router.route('/all-categories').get(CategoryControllers.getAllCategories);
 // get single
 router.route('/single-category/:id').get(CategoryControllers.getSingleCategory);
 
+// update a category
+router
+  .route('/update-category/:id')
+  .put(
+    upload.single('categoryImage'),
+    parseFormData,
+    validateRequest(CategoryValidations.updateCategoryValidationSchema),
+    CategoryControllers.updateCategory,
+  );
+
 // ---------------------------
 export const categoryRoutes = router;
