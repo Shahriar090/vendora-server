@@ -8,16 +8,15 @@ import { handleImageUpload } from '../../utils/imageUpload';
 // create new category
 const createCategoryIntoDb = async (payload: TCategory, req: Request) => {
   // image uploading
-  const uploadImage = await handleImageUpload(req);
+  const uploadedImageUrl = await handleImageUpload(req);
 
-  if (!uploadImage) {
+  if (!uploadedImageUrl) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
       'Image upload failed.',
       'ImageUploadError',
     );
   }
-  payload.imageUrl = uploadImage as string;
   // check if the category is already exist or not
   const isCategoryExists = await Category.findOne({
     categoryName: payload.categoryName,
@@ -26,13 +25,13 @@ const createCategoryIntoDb = async (payload: TCategory, req: Request) => {
   if (isCategoryExists) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
-      `${payload.categoryName} category is already exist.!`,
+      `The category "${payload.categoryName}" already exists.`,
       'CategoryExistingError',
     );
   }
 
   //   create new category if it does not exist
-  const newCategory = new Category({ ...payload });
+  const newCategory = new Category({ ...payload, imageUrl: uploadedImageUrl });
 
   const result = await newCategory.save();
   return result;
