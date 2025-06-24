@@ -19,5 +19,8 @@ router
 // get all
 router.route('/all-categories').get(CategoryControllers.getAllCategories);
 
+// get single
+router.route('/single-category/:id').get(CategoryControllers.getSingleCategory);
+
 // ---------------------------
 export const categoryRoutes = router;

@@ -41,10 +41,25 @@ const createCategoryIntoDb = async (payload: TCategory, req: Request) => {
 const getAllCategoriesFromDb = async () => {
   const result = await Category.find();
 
-  if (!result) {
+  if (!result.length) {
     throw new AppError(
       httpStatus.NOT_FOUND,
       'No category found.!',
+      'CategoryNotFound',
+    );
+  }
+
+  return result;
+};
+
+// get a single category
+const getSingleCategoryFromDb = async (id: string) => {
+  const result = await Category.findById(id);
+
+  if (!result) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'Category not found.!',
       'CategoryNotFound',
     );
   }
@@ -57,4 +72,5 @@ const getAllCategoriesFromDb = async () => {
 export const CategoryServices = {
   createCategoryIntoDb,
   getAllCategoriesFromDb,
+  getSingleCategoryFromDb,
 };
