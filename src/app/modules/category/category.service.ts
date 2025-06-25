@@ -4,6 +4,7 @@ import { Category } from './category.model';
 import AppError from '../../errors/appError';
 import { Request } from 'express';
 import { handleImageUpload } from '../../utils/imageUpload';
+import { deleteOldImageFromCloudinary } from '../../utils/deleteOldImageFromCloudinary';
 
 // create new category
 const createCategoryIntoDb = async (payload: TCategory, req: Request) => {
@@ -86,17 +87,24 @@ const updateCategoryIntoDb = async (
 
   // image update if needed
   let uploadedImageUrl: string | string[] | null = null;
+
   if (req.file || req.files) {
+    // delete old image first
+    if (existingCategory.imageUrl) {
+      await deleteOldImageFromCloudinary(existingCategory.imageUrl);
+    }
+
+    // upload new image
     uploadedImageUrl = await handleImageUpload(req);
+
     if (!uploadedImageUrl) {
       throw new AppError(
-        httpStatus.NOT_FOUND,
+        httpStatus.BAD_REQUEST,
         'Image uploading failed.!',
-        'CategoryNotFound',
+        'ImageUploadError',
       );
     }
   }
-
   // preparing updated data
   const updatedData = {
     ...payload,
