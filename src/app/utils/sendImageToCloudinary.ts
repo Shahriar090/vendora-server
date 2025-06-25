@@ -16,13 +16,24 @@ export type TCloudinaryUploadResult = {
   [key: string]: any;
 };
 
+// Helper function to remove extension from filename
+const removeExtension = (filename: string): string => {
+  const lastDotIndex = filename.lastIndexOf('.');
+  return lastDotIndex > 0 ? filename.substring(0, lastDotIndex) : filename;
+};
+
 export const sendImageToCloudinary = async (
   imageName: string,
   filePath: string,
 ): Promise<TCloudinaryUploadResult | null> => {
   try {
+    // Remove extension from imageName to prevent double extensions
+    const cleanImageName = removeExtension(imageName);
+
     const result = await cloudinary.uploader.upload(filePath, {
-      public_id: imageName,
+      public_id: cleanImageName,
+      resource_type: 'auto',
+      overwrite: true,
     });
 
     await fs.promises.unlink(filePath); // delete local file
