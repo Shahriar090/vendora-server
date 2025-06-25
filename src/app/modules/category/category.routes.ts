@@ -32,5 +32,8 @@ router
     CategoryControllers.updateCategory,
   );
 
+// delete a category
+router.route('/delete-category/:id').delete(CategoryControllers.deleteCategory);
+
 // ---------------------------
 export const categoryRoutes = router;

@@ -120,6 +120,22 @@ const updateCategoryIntoDb = async (
   return updatedCategory;
 };
 
+// delete a category using soft delete
+const deleteCategoryFromDb = async (id: string) => {
+  const category = await Category.findById(id);
+
+  if (!category) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'Category not found.!',
+      'CategoryNotFound',
+    );
+  }
+  category.isDeleted = true;
+  await category.save();
+  return category;
+};
+
 // ---------------------------------------------
 
 export const CategoryServices = {
@@ -127,4 +143,5 @@ export const CategoryServices = {
   getAllCategoriesFromDb,
   getSingleCategoryFromDb,
   updateCategoryIntoDb,
+  deleteCategoryFromDb,
 };
