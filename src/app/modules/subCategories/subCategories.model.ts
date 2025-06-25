@@ -15,7 +15,6 @@ const subCategorySchema = new Schema<TSubCategories>(
     slug: {
       type: String,
       lowercase: true,
-      required: true,
       unique: true,
     },
     description: {

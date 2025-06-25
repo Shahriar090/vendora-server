@@ -3,9 +3,9 @@ import { Types } from 'mongoose';
 export type TSubCategories = {
   subCategoryName: string;
   categoryName: string;
-  slug: string;
+  slug?: string;
   description: string;
-  imageUrl?: string;
+  imageUrl: string;
   category: Types.ObjectId;
   isDeleted: boolean;
 };
