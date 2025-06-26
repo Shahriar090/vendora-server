@@ -21,5 +21,10 @@ router
   .route('/all-sub-categories')
   .get(SubCategoryControllers.getAllSubCategories);
 
+// get a single sub category
+router
+  .route('/single-sub-category/:id')
+  .get(SubCategoryControllers.getSingleSubCategory);
+
 // ----------------------------Sub Categories Routes--------------------------//
 export const subCategoriesRoutes = router;

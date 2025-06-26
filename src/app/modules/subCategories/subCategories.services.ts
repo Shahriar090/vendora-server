@@ -69,16 +69,31 @@ const getAllSubCategoriesFromDb = async () => {
     throw new AppError(
       httpStatus.NOT_FOUND,
       'No sub category found.!',
-      'CategoryNotFound',
+      'SubCategoryNotFound',
     );
   }
 
   return result;
 };
 
+// get a single sub category from db
+const getSingleSubCategoryFromDb = async (id: string) => {
+  const result = await SubCategories.findById(id);
+
+  if (!result) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'No sub category found with this id.!',
+      'SubCategoryNotFound',
+    );
+  }
+
+  return result;
+};
 // ------------------export sub categories service functions-------------------//
 
 export const SubCategoryServices = {
   createSubCategoryIntoDb,
   getAllSubCategoriesFromDb,
+  getSingleSubCategoryFromDb,
 };
