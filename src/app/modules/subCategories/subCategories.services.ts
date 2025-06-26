@@ -61,8 +61,24 @@ const createSubCategoryIntoDb = async (
   return result;
 };
 
+// get all sub categories from db
+const getAllSubCategoriesFromDb = async () => {
+  const result = await SubCategories.find();
+
+  if (!result.length) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'No sub category found.!',
+      'CategoryNotFound',
+    );
+  }
+
+  return result;
+};
+
 // ------------------export sub categories service functions-------------------//
 
 export const SubCategoryServices = {
   createSubCategoryIntoDb,
+  getAllSubCategoriesFromDb,
 };

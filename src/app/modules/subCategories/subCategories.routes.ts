@@ -16,5 +16,10 @@ router
     SubCategoryControllers.createSubCategory,
   );
 
+// get all sub categories
+router
+  .route('/all-sub-categories')
+  .get(SubCategoryControllers.getAllSubCategories);
+
 // ----------------------------Sub Categories Routes--------------------------//
 export const subCategoriesRoutes = router;
