@@ -5,6 +5,7 @@ import AppError from '../../errors/appError';
 import { SubCategories } from './subCategories.model';
 import { Request } from 'express';
 import { handleImageUpload } from '../../utils/imageUpload';
+import { deleteOldImageFromCloudinary } from '../../utils/deleteOldImageFromCloudinary';
 
 // create sub category into db
 const createSubCategoryIntoDb = async (
@@ -90,10 +91,67 @@ const getSingleSubCategoryFromDb = async (id: string) => {
 
   return result;
 };
+
+// update a sub category into db
+const updateSubCategoryIntoDb = async (
+  id: string,
+  payload: Partial<TSubCategories>,
+  req: Request,
+) => {
+  // check if the sub category is exist
+  const existingSubCategory = await SubCategories.findById(id);
+
+  if (!existingSubCategory) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'Sub category not found.!',
+      'SubCategoryNotFound',
+    );
+  }
+
+  // image update if needed
+  let uploadedImageUrl: string | string[] | null = null;
+
+  if (req.file || req.files) {
+    // delete old image first
+    if (existingSubCategory.imageUrl) {
+      await deleteOldImageFromCloudinary(existingSubCategory.imageUrl);
+    }
+
+    // upload new image
+    uploadedImageUrl = await handleImageUpload(req);
+
+    if (!uploadedImageUrl) {
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        'Image uploading failed.!',
+        'ImageUploadError',
+      );
+    }
+  }
+  // preparing updated data
+  const updatedData = {
+    ...payload,
+    ...(uploadedImageUrl && { imageUrl: uploadedImageUrl }),
+  };
+
+  // update sub category
+  const updatedSubCategory = await SubCategories.findByIdAndUpdate(
+    id,
+    updatedData,
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
+
+  return updatedSubCategory;
+};
 // ------------------export sub categories service functions-------------------//
 
 export const SubCategoryServices = {
   createSubCategoryIntoDb,
   getAllSubCategoriesFromDb,
   getSingleSubCategoryFromDb,
+  updateSubCategoryIntoDb,
 };

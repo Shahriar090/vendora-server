@@ -26,5 +26,15 @@ router
   .route('/single-sub-category/:id')
   .get(SubCategoryControllers.getSingleSubCategory);
 
+// update sub category
+router
+  .route('/update-sub-category/:id')
+  .put(
+    upload.single('subCategoryImg'),
+    parseFormData,
+    validateRequest(SubCategoryValidations.updateSubCategoryValidationSchema),
+    SubCategoryControllers.updateSubCategory,
+  );
+
 // ----------------------------Sub Categories Routes--------------------------//
 export const subCategoriesRoutes = router;

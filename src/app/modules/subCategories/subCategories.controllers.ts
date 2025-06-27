@@ -43,9 +43,29 @@ const getSingleSubCategory = asyncHandler(async (req, res) => {
     data: result,
   });
 });
+
+// update sub category
+const updateSubCategory = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { subCategory } = req.body;
+
+  const result = await SubCategoryServices.updateSubCategoryIntoDb(
+    id,
+    subCategory,
+    req,
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Sub category data updated successfully',
+    data: result,
+  });
+});
 // --------------export sub category controller functions-------------------//
 export const SubCategoryControllers = {
   createSubCategory,
   getAllSubCategories,
   getSingleSubCategory,
+  updateSubCategory,
 };
