@@ -36,5 +36,10 @@ router
     SubCategoryControllers.updateSubCategory,
   );
 
+// delete a sub category
+router
+  .route('/delete-sub-category/:id')
+  .delete(SubCategoryControllers.deleteSubCategory);
+
 // ----------------------------Sub Categories Routes--------------------------//
 export const subCategoriesRoutes = router;

@@ -147,6 +147,22 @@ const updateSubCategoryIntoDb = async (
 
   return updatedSubCategory;
 };
+
+// delete a sub category using soft delete
+const deleteSubCategoryFromDb = async (id: string) => {
+  const subCategory = await SubCategories.findById(id);
+
+  if (!subCategory) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'Sub category not found.!',
+      'SubCategoryNotFound',
+    );
+  }
+  subCategory.isDeleted = true;
+  await subCategory.save();
+  return subCategory;
+};
 // ------------------export sub categories service functions-------------------//
 
 export const SubCategoryServices = {
@@ -154,4 +170,5 @@ export const SubCategoryServices = {
   getAllSubCategoriesFromDb,
   getSingleSubCategoryFromDb,
   updateSubCategoryIntoDb,
+  deleteSubCategoryFromDb,
 };

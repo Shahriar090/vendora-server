@@ -62,10 +62,24 @@ const updateSubCategory = asyncHandler(async (req, res) => {
     data: result,
   });
 });
+
+// delete a sub category
+const deleteSubCategory = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const result = await SubCategoryServices.deleteSubCategoryFromDb(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Sub category deleted successfully',
+    data: result,
+  });
+});
 // --------------export sub category controller functions-------------------//
 export const SubCategoryControllers = {
   createSubCategory,
   getAllSubCategories,
   getSingleSubCategory,
   updateSubCategory,
+  deleteSubCategory,
 };
