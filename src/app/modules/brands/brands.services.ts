@@ -38,7 +38,38 @@ const createBrandIntoDb = async (payload: TBrand, req: Request) => {
   return result;
 };
 
+// get all brands from db
+const getAllBrandsFromDb = async () => {
+  const result = await Brand.find();
+
+  if (!result.length) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'No brand found.!',
+      'BrandNotFound',
+    );
+  }
+
+  return result;
+};
+
+// get a single brand from db
+const getSingleBrandFromDb = async (id: string) => {
+  const result = await Brand.findById(id);
+
+  if (!result) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'Brand not found.!',
+      'BrandNotFound',
+    );
+  }
+
+  return result;
+};
 // ---------------------------export brand service logic------------------------//
 export const BrandServices = {
   createBrandIntoDb,
+  getAllBrandsFromDb,
+  getSingleBrandFromDb,
 };

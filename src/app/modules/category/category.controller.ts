@@ -22,7 +22,7 @@ const createCategory = asyncHandler(async (req, res) => {
 const getAllCategories = asyncHandler(async (req, res) => {
   const result = await CategoryServices.getAllCategoriesFromDb();
   sendResponse(res, {
-    statusCode: httpStatus.CREATED,
+    statusCode: httpStatus.OK,
     success: true,
     message: 'All categories are retrieved successfully.!',
     data: result,
@@ -35,7 +35,7 @@ const getSingleCategory = asyncHandler(async (req, res) => {
   const result = await CategoryServices.getSingleCategoryFromDb(id);
 
   sendResponse(res, {
-    statusCode: httpStatus.CREATED,
+    statusCode: httpStatus.OK,
     success: true,
     message: 'Category retrieved successfully.!',
     data: result,
@@ -49,7 +49,7 @@ const updateCategory = asyncHandler(async (req, res) => {
   const result = await CategoryServices.updateCategoryIntoDb(id, category, req);
 
   sendResponse(res, {
-    statusCode: httpStatus.CREATED,
+    statusCode: httpStatus.OK,
     success: true,
     message: 'Category updated successfully.!',
     data: result,

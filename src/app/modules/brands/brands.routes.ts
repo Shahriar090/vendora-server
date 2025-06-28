@@ -15,5 +15,11 @@ router
     validateRequest(BrandValidations.createBrandValidationSchema),
     BrandControllers.createBrand,
   );
+
+// get all brands
+router.route('/all-brands').get(BrandControllers.getAllBrands);
+
+// get a single brand
+router.route('/single-brand/:id').get(BrandControllers.getSingleBrand);
 // -----------------------export brand routes------------------------//
 export const brandRoutes = router;

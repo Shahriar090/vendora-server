@@ -16,7 +16,32 @@ const createBrand = asyncHandler(async (req, res) => {
   });
 });
 
+// get all brands
+const getAllBrands = asyncHandler(async (req, res) => {
+  const result = await BrandServices.getAllBrandsFromDb();
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'All brands are retrieved successfully.!',
+    data: result,
+  });
+});
+
+// get single brand
+const getSingleBrand = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const result = await BrandServices.getSingleBrandFromDb(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Brand data retrieved successfully.!',
+    data: result,
+  });
+});
 // --------------------------export brand controller logic------------------//
 export const BrandControllers = {
   createBrand,
+  getAllBrands,
+  getSingleBrand,
 };
