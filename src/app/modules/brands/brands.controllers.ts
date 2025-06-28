@@ -39,9 +39,25 @@ const getSingleBrand = asyncHandler(async (req, res) => {
     data: result,
   });
 });
+
+// update brand
+const updateBrand = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { brand } = req.body;
+
+  const result = await BrandServices.updateBrandIntoDb(id, brand, req);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Brand data updated successfully.!',
+    data: result,
+  });
+});
 // --------------------------export brand controller logic------------------//
 export const BrandControllers = {
   createBrand,
   getAllBrands,
   getSingleBrand,
+  updateBrand,
 };

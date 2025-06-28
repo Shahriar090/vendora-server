@@ -4,6 +4,7 @@ import { Request } from 'express';
 import { handleImageUpload } from '../../utils/imageUpload';
 import AppError from '../../errors/appError';
 import { Brand } from './brands.model';
+import { deleteOldImageFromCloudinary } from '../../utils/deleteOldImageFromCloudinary';
 
 // create new brand into db
 const createBrandIntoDb = async (payload: TBrand, req: Request) => {
@@ -67,9 +68,72 @@ const getSingleBrandFromDb = async (id: string) => {
 
   return result;
 };
+
+// update brand
+const updateBrandIntoDb = async (
+  id: string,
+  payload: Partial<TBrand>,
+  req: Request,
+) => {
+  // check if the category is exist
+  const existingBrand = await Brand.findById(id);
+
+  if (!existingBrand) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'Brand not found.!',
+      'BrandNotFound',
+    );
+  }
+
+  // check if update data is empty
+  const isEmptyPayload =
+    Object.keys(payload).length === 0 && !req.file && !req.files;
+
+  if (isEmptyPayload) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      'No data provided for update.',
+      'EmptyPayloadError',
+    );
+  }
+
+  // image update if needed
+  let uploadedImageUrl: string | string[] | null = null;
+
+  if (req.file || req.files) {
+    // delete old image first
+    if (existingBrand.imageUrl) {
+      await deleteOldImageFromCloudinary(existingBrand.imageUrl);
+    }
+
+    // upload new image
+    uploadedImageUrl = await handleImageUpload(req);
+
+    if (!uploadedImageUrl) {
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        'Image uploading failed.!',
+        'ImageUploadError',
+      );
+    }
+  }
+
+  // merge update payload into existing brand
+  Object.assign(existingBrand, {
+    ...payload,
+    ...(uploadedImageUrl && { imageUrl: uploadedImageUrl }),
+  });
+
+  const updatedBrand = await existingBrand.save();
+
+  return updatedBrand;
+};
+
 // ---------------------------export brand service logic------------------------//
 export const BrandServices = {
   createBrandIntoDb,
   getAllBrandsFromDb,
   getSingleBrandFromDb,
+  updateBrandIntoDb,
 };

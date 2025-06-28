@@ -21,5 +21,15 @@ router.route('/all-brands').get(BrandControllers.getAllBrands);
 
 // get a single brand
 router.route('/single-brand/:id').get(BrandControllers.getSingleBrand);
+
+// update a brand
+router
+  .route('/update-brand/:id')
+  .put(
+    upload.single('brandImage'),
+    parseFormData,
+    validateRequest(BrandValidations.updateBrandValidationSchema),
+    BrandControllers.updateBrand,
+  );
 // -----------------------export brand routes------------------------//
 export const brandRoutes = router;
