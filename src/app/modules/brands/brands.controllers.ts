@@ -54,10 +54,24 @@ const updateBrand = asyncHandler(async (req, res) => {
     data: result,
   });
 });
+
+// delete a brand
+const deleteBrand = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const result = await BrandServices.deleteBrandFromDb(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Brand deleted successfully.!',
+    data: result,
+  });
+});
 // --------------------------export brand controller logic------------------//
 export const BrandControllers = {
   createBrand,
   getAllBrands,
   getSingleBrand,
   updateBrand,
+  deleteBrand,
 };

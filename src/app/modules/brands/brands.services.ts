@@ -130,10 +130,27 @@ const updateBrandIntoDb = async (
   return updatedBrand;
 };
 
+// delete a brand (soft delete)
+
+const deleteBrandFromDb = async (id: string) => {
+  const brand = await Brand.findById(id);
+
+  if (!brand) {
+    throw new AppError(
+      httpStatus.NOT_FOUND,
+      'Brand not found.!',
+      'BrandNotFound',
+    );
+  }
+  brand.isDeleted = true;
+  await brand.save();
+  return brand;
+};
 // ---------------------------export brand service logic------------------------//
 export const BrandServices = {
   createBrandIntoDb,
   getAllBrandsFromDb,
   getSingleBrandFromDb,
   updateBrandIntoDb,
+  deleteBrandFromDb,
 };

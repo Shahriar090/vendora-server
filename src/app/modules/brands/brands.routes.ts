@@ -31,5 +31,8 @@ router
     validateRequest(BrandValidations.updateBrandValidationSchema),
     BrandControllers.updateBrand,
   );
+
+// delete a brand
+router.route('/delete-brand/:id').delete(BrandControllers.deleteBrand);
 // -----------------------export brand routes------------------------//
 export const brandRoutes = router;
