@@ -46,6 +46,8 @@ You can use the following demo accounts to explore the application:
 - 🔗 **Live Site (Front-End):** [https://vendora-e-commerce.netlify.app](https://vendora-e-commerce.netlify.app)
 - 🌐 **Live API (Backend):** [https://vendora-server.onrender.com](https://vendora-server.onrender.com)
 
+### ⚠️ Note: Since I deployed the server on Render using the free trial, it may automatically go to sleep after a certain period of inactivity. I plan to fix this issue soon by upgrading to a premium plan. I kindly ask for your patience and understanding if the server takes a moment to wake up during testing. 🙏
+
 ---
 
 ### 📂 GitHub Repositories
@@ -163,6 +165,16 @@ Vendora Server (Root folder)
 - app.ts => (Express app configuration)
 
 - server => (Server entry point and initialization)
+
+## 🔃 Product and Category Management
+
+I have structured the categories and products in a tree-like hierarchy. This helps in organizing products efficiently under main categories and subcategories.
+
+Below is a screenshot to give you a better understanding of the structure:
+
+### 🖼️ Category and Product Structure
+
+![Category and Product Structure](./screenshots/product-structure.png)
 
 # 🔐 Authentication & Role-Based Access Control
 
