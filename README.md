@@ -109,7 +109,9 @@ REFRESH_TOKEN_EXPIRY=2d
 ## Cloudinary Configuration
 
 CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+
 CLOUDINARY_API_KEY=your_clodinary_api_key
+
 CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 
 > 📌 **Tip:** You can copy the structure from `.env.example` (if included) and replace sensitive values with your own.
